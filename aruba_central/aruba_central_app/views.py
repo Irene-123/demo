@@ -24,7 +24,7 @@ class site_list(APIView):
             serializer.save() 
             return Response("Sites successfully added")
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    def put(self, request, pk, format=None):
+    def put(self, request, format=None):
         pk= request.query_params.get('site_id', None) 
         if pk: 
             site= Site.objects.get(pk= pk) 
@@ -32,9 +32,11 @@ class site_list(APIView):
             if serializer.is_valid():
                 serializer.save()
                 return Response('sites Updated')
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response("PK not fetched")
+        return Response('Not working')
 
-    def delete(self, request, pk, format=None):
+    def delete(self, request, format=None):
         pk = request.query_params.get('site_id', None)
         site = Site.objects.get(pk=pk).delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
